@@ -6,11 +6,13 @@ const { Todo } = require('./models/todo');
 const { Users } = require('./models/users');
 
 let port = 3000;
-
 const app = express();
 
 app.use(bodyParser.json());
 
+/**
+ * POST /todos
+ */
 app.post('/todos', (req, res) => {
     const todo = new Todo({
         text: req.body.text
@@ -26,3 +28,6 @@ app.post('/todos', (req, res) => {
 app.listen(port, () => {
     console.log(`Started on port: ${port}`)
 });
+
+
+module.exports = { app };
