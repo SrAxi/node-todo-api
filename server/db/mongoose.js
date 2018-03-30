@@ -5,6 +5,6 @@ mongoose.Promise = global.Promise;
 
 // Connect to DB
 // mongoose.connect('mongodb://localhost:27017/TodoApp');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
+mongoose.connect(process.env.MONGODB_URI);
 
 module.exports = { mongoose };
