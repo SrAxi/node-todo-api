@@ -7,7 +7,7 @@ const { ObjectId } = require('mongodb');
 
 const { mongoose } = require('./db/mongoose');
 const { Todo } = require('./models/todo');
-const { Users } = require('./models/users');
+const { User } = require('./models/user');
 
 const port = process.env.PORT;
 const app = express();
@@ -56,9 +56,7 @@ app.get('/todos/:id', (req, res) => {
         }
 
         res.send({ todo });
-    }).catch(() => {
-        res.status(400).send();
-    })
+    }).catch(() => res.status(400).send())
 });
 
 /**
@@ -77,9 +75,7 @@ app.delete('/todos/:id', (req, res) => {
         }
 
         res.send({ todo });
-    }).catch(() => {
-        res.status(400).send();
-    });
+    }).catch(() => res.status(400).send());
 });
 
 /**
@@ -106,9 +102,23 @@ app.patch('/todos/:id', (req, res) => {
         }
 
         res.send({ todo });
-    }).catch(() => {
-        res.status(400).send();
-    });
+    }).catch(() => res.status(400).send());
+});
+
+/**
+ * POST /users
+ */
+app.post('/users', (req, res) => {
+    const body = _.pick(req.body, ['email', 'password']);
+    const user = new User(body);
+
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res
+            .header('x-auth', token)
+            .send(user);
+    }).catch((e) => res.status(400).send(e))
 });
 
 app.listen(port, () => {
