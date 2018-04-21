@@ -11,12 +11,12 @@ const { todos, populateTodos, users, populateUsers } = require('./seed/seed');
 beforeEach(populateUsers);
 beforeEach(populateTodos);
 
-describe('POST /todos', () => {
+describe('POST /api/todos', () => {
     it('should create a new Todo', (done) => {
         const sampleText = 'Test Todo';
 
         request(app)
-            .post('/todos')
+            .post('/api/todos')
             .set('x-auth', users[0].tokens[0].token)
             .send({ text: sampleText })
             .expect(200)
@@ -40,7 +40,7 @@ describe('POST /todos', () => {
 
     it('should not create Todo with invalid body data', (done) => {
         request(app)
-            .post('/todos')
+            .post('/api/todos')
             .set('x-auth', users[0].tokens[0].token)
             .send({})
             .expect(400)
@@ -59,10 +59,10 @@ describe('POST /todos', () => {
     });
 });
 
-describe('GET /todos', () => {
+describe('GET /api/todos', () => {
     it('should get all todos', (done) => {
         request(app)
-            .get('/todos')
+            .get('/api/todos')
             .set('x-auth', users[0].tokens[0].token)
             .expect(200)
             .expect((res) => {
@@ -72,10 +72,10 @@ describe('GET /todos', () => {
     });
 });
 
-describe('GET /todos/:id', () => {
+describe('GET /api/todos/:id', () => {
     it('should get the todo by id', (done) => {
         request(app)
-            .get(`/todos/${todos[0]._id.toHexString()}`)
+            .get(`/api/todos/${todos[0]._id.toHexString()}`)
             .set('x-auth', users[0].tokens[0].token)
             .expect(200)
             .expect((res) => {
@@ -86,7 +86,7 @@ describe('GET /todos/:id', () => {
 
     it('should not return a todo created by another user', (done) => {
         request(app)
-            .get(`/todos/${todos[1]._id.toHexString()}`)
+            .get(`/api/todos/${todos[1]._id.toHexString()}`)
             .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
@@ -95,7 +95,7 @@ describe('GET /todos/:id', () => {
     it('should return a 404 if todo not found', (done) => {
         const testId = new ObjectId();
         request(app)
-            .get(`/todos/${testId.toHexString()}`)
+            .get(`/api/todos/${testId.toHexString()}`)
             .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
@@ -103,18 +103,18 @@ describe('GET /todos/:id', () => {
 
     it('should return a 404 for non-object ids', (done) => {
         request(app)
-            .get('/todos/123abc')
+            .get('/api/todos/123abc')
             .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
     });
 });
 
-describe('DELETE /todos/:id', () => {
+describe('DELETE /api/todos/:id', () => {
     it('should remove a todo', (done) => {
         const idToBeRemoved = todos[1]._id.toHexString();
         request(app)
-            .delete(`/todos/${idToBeRemoved}`)
+            .delete(`/api/todos/${idToBeRemoved}`)
             .set('x-auth', users[1].tokens[0].token)
             .expect(200)
             .expect((res) => {
@@ -135,7 +135,7 @@ describe('DELETE /todos/:id', () => {
     it('should not remove a todo from another user', (done) => {
         const idToBeRemoved = todos[0]._id.toHexString();
         request(app)
-            .delete(`/todos/${idToBeRemoved}`)
+            .delete(`/api/todos/${idToBeRemoved}`)
             .set('x-auth', users[1].tokens[0].token)
             .expect(404)
             .end((err, res) => {
@@ -153,7 +153,7 @@ describe('DELETE /todos/:id', () => {
     it('should return a 404 if todo not found', (done) => {
         const testId = new ObjectId();
         request(app)
-            .delete(`/todos/${testId.toHexString()}`)
+            .delete(`/api/todos/${testId.toHexString()}`)
             .set('x-auth', users[1].tokens[0].token)
             .expect(404)
             .end(done);
@@ -161,19 +161,19 @@ describe('DELETE /todos/:id', () => {
 
     it('should return a 404 for non-object ids', (done) => {
         request(app)
-            .delete('/todos/123abc')
+            .delete('/api/todos/123abc')
             .set('x-auth', users[1].tokens[0].token)
             .expect(404)
             .end(done);
     });
 });
 
-describe('PATCH /todos/:id', () => {
+describe('PATCH /api/todos/:id', () => {
     it('should update a todo', (done) => {
         const idToBeUpdated = todos[0]._id.toHexString();
         const text = 'updated text';
         request(app)
-            .patch(`/todos/${idToBeUpdated}`)
+            .patch(`/api/todos/${idToBeUpdated}`)
             .set('x-auth', users[0].tokens[0].token)
             .send({
                 'completed': true,
@@ -192,7 +192,7 @@ describe('PATCH /todos/:id', () => {
         const idToBeUpdated = todos[0]._id.toHexString();
         const text = 'updated text';
         request(app)
-            .patch(`/todos/${idToBeUpdated}`)
+            .patch(`/api/todos/${idToBeUpdated}`)
             .set('x-auth', users[1].tokens[0].token)
             .send({
                 'completed': true,
@@ -206,7 +206,7 @@ describe('PATCH /todos/:id', () => {
         const idToBeUpdated = todos[1]._id.toHexString();
         const text = 'updated text';
         request(app)
-            .patch(`/todos/${idToBeUpdated}`)
+            .patch(`/api/todos/${idToBeUpdated}`)
             .set('x-auth', users[1].tokens[0].token)
             .send({
                 'completed': false,
@@ -224,7 +224,7 @@ describe('PATCH /todos/:id', () => {
     it('should return a 404 if todo not found', (done) => {
         const testId = new ObjectId();
         request(app)
-            .patch(`/todos/${testId.toHexString()}`)
+            .patch(`/api/todos/${testId.toHexString()}`)
             .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
@@ -232,17 +232,17 @@ describe('PATCH /todos/:id', () => {
 
     it('should return a 404 for non-object ids', (done) => {
         request(app)
-            .patch('/todos/123abc')
+            .patch('/api/todos/123abc')
             .set('x-auth', users[0].tokens[0].token)
             .expect(404)
             .end(done);
     });
 });
 
-describe('GET /users/me', () => {
+describe('GET /api/users/me', () => {
     it('should return user if authenticated', (done) => {
         request(app)
-            .get('/users/me')
+            .get('/api/users/me')
             .set('x-auth', users[0].tokens[0].token)
             .expect(200)
             .expect((res) => {
@@ -254,7 +254,7 @@ describe('GET /users/me', () => {
 
     it('should return 404 if not authenticated', (done) => {
         request(app)
-            .get('/users/me')
+            .get('/api/users/me')
             .expect(401)
             .expect((res) => {
                 expect(res.body).toEqual({});
@@ -263,13 +263,13 @@ describe('GET /users/me', () => {
     });
 });
 
-describe('POST /users', () => {
+describe('POST /api/users', () => {
     it('should create a user', (done) => {
         const email = 'example@test.com';
         const password = '123abc!';
 
         request(app)
-            .post('/users')
+            .post('/api/users')
             .send({ email, password })
             .expect(200)
             .expect((res) => {
@@ -295,7 +295,7 @@ describe('POST /users', () => {
         const password = '123';
 
         request(app)
-            .post('/users')
+            .post('/api/users')
             .send({ email, password })
             .expect(400)
             .end(done);
@@ -303,7 +303,7 @@ describe('POST /users', () => {
 
     it('should not create user if email is in use', (done) => {
         request(app)
-            .post('/users')
+            .post('/api/users')
             .send({
                 email: users[0].email,
                 password: 'Password123!'
@@ -313,10 +313,10 @@ describe('POST /users', () => {
     });
 });
 
-describe('POST /users/login', () => {
+describe('POST /api/users/login', () => {
     it('should login user and return auth token', (done) => {
         request(app)
-            .post('/users/login')
+            .post('/api/users/login')
             .send({
                 email: users[1].email,
                 password: users[1].password
@@ -343,7 +343,7 @@ describe('POST /users/login', () => {
 
     it('should reject invalid login', (done) => {
         request(app)
-            .post('/users/login')
+            .post('/api/users/login')
             .send({
                 email: users[1].email,
                 password: 'wrongPassword'
@@ -365,10 +365,10 @@ describe('POST /users/login', () => {
     });
 });
 
-describe('DELETE /users/me/token', () => {
+describe('DELETE /api/users/me/token', () => {
     it('should remove auth token on logout', (done) => {
         request(app)
-            .delete('/users/me/token')
+            .delete('/api/users/me/token')
             .set('x-auth', users[0].tokens[0].token)
             .expect(200)
             .end((err, res) => {

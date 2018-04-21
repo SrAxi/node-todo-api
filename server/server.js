@@ -16,9 +16,9 @@ const app = express();
 app.use(bodyParser.json());
 
 /**
- * POST /todos
+ * POST /api/todos
  */
-app.post('/todos', authenticate, (req, res) => {
+app.post('/api/todos', authenticate, (req, res) => {
     const todo = new Todo({
         text: req.body.text,
         _creator: req.user._id
@@ -32,9 +32,9 @@ app.post('/todos', authenticate, (req, res) => {
 });
 
 /**
- * GET /todos
+ * GET /api/todos
  */
-app.get('/todos', authenticate, (req, res) => {
+app.get('/api/todos', authenticate, (req, res) => {
     Todo.find({
         _creator: req.user._id
     }).then((todos) => {
@@ -45,9 +45,9 @@ app.get('/todos', authenticate, (req, res) => {
 });
 
 /**
- * GET /todos/:id
+ * GET /api/todos/:id
  */
-app.get('/todos/:id', authenticate, (req, res) => {
+app.get('/api/todos/:id', authenticate, (req, res) => {
     const { id } = req.params;
 
     if (!ObjectId.isValid(id)) {
@@ -67,9 +67,9 @@ app.get('/todos/:id', authenticate, (req, res) => {
 });
 
 /**
- * DELETE /todos/:id
+ * DELETE /api/todos/:id
  */
-app.delete('/todos/:id', authenticate, (req, res) => {
+app.delete('/api/todos/:id', authenticate, (req, res) => {
     const { id } = req.params;
 
     if (!ObjectId.isValid(id)) {
@@ -89,9 +89,9 @@ app.delete('/todos/:id', authenticate, (req, res) => {
 });
 
 /**
- * PATCH /todos/:id
+ * PATCH /api/todos/:id
  */
-app.patch('/todos/:id', authenticate, (req, res) => {
+app.patch('/api/todos/:id', authenticate, (req, res) => {
     const { id } = req.params;
     const body = _.pick(req.body, ['text', 'completed']);
 
@@ -117,9 +117,9 @@ app.patch('/todos/:id', authenticate, (req, res) => {
 });
 
 /**
- * POST /users
+ * POST /api/users
  */
-app.post('/users', (req, res) => {
+app.post('/api/users', (req, res) => {
     const body = _.pick(req.body, ['email', 'password']);
     const user = new User(body);
 
@@ -131,16 +131,16 @@ app.post('/users', (req, res) => {
 });
 
 /**
- * GET /users/me
+ * GET /api/users/me
  */
-app.get('/users/me', authenticate, (req, res) => {
+app.get('/api/users/me', authenticate, (req, res) => {
     res.send(req.user);
 });
 
 /**
- * POST /users/login
+ * POST /api/users/login
  */
-app.post('/users/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     const body = _.pick(req.body, ['email', 'password']);
 
     User.findByCredentials(body.email, body.password).then((user) => {
@@ -153,9 +153,9 @@ app.post('/users/login', (req, res) => {
 });
 
 /**
- * DELETE /users/me/token
+ * DELETE /api/users/me/token
  */
-app.delete('/users/me/token', authenticate, (req, res) => {
+app.delete('/api/users/me/token', authenticate, (req, res) => {
     req.user.removeToken(req.token).then(() => {
         res.status(200).send();
     }).catch(() => {
