@@ -1,6 +1,34 @@
 define({
     "api": [
         {
+            "success": {
+                "fields": {
+                    "Success 200": [
+                        {
+                            "group": "Success 200",
+                            "optional": false,
+                            "field": "varname1",
+                            "description": "<p>No type.</p>"
+                        },
+                        {
+                            "group": "Success 200",
+                            "type": "String",
+                            "optional": false,
+                            "field": "varname2",
+                            "description": "<p>With type.</p>"
+                        }
+                    ]
+                }
+            },
+            "type": "",
+            "url": "",
+            "version": "0.0.0",
+            "filename": "server/doc/main.js",
+            "group": "D__CODING_learning_nodeJS_node_todo_api_server_doc_main_js",
+            "groupTitle": "D__CODING_learning_nodeJS_node_todo_api_server_doc_main_js",
+            "name": ""
+        },
+        {
             "type": "delete",
             "url": "/api/todos:id",
             "title": "Deletes a Todo",

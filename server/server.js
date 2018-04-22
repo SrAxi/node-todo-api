@@ -16,6 +16,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(setHeaders);
+app.use('/apidoc', express.static(__dirname + '/public/apidoc'));
 
 /**
  * POST /api/todos
