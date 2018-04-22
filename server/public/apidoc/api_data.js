@@ -31,7 +31,7 @@ define({
         {
             "type": "delete",
             "url": "/api/todos:id",
-            "title": "Deletes a Todo",
+            "title": "Delete a Todo",
             "name": "DeleteTodoById",
             "group": "Todos",
             "parameter": {
@@ -102,7 +102,7 @@ define({
         {
             "type": "get",
             "url": "/api/todos:id",
-            "title": "Gets a Todo",
+            "title": "Retrieve a Todo",
             "name": "GetTodoById",
             "group": "Todos",
             "parameter": {
@@ -173,7 +173,7 @@ define({
         {
             "type": "get",
             "url": "/api/todos",
-            "title": "Gets all the Todos",
+            "title": "List all the Todos",
             "name": "GetTodos",
             "group": "Todos",
             "success": {
@@ -203,7 +203,7 @@ define({
         {
             "type": "post",
             "url": "/api/todos",
-            "title": "Creates new Todos",
+            "title": "Create new Todos",
             "name": "PostTodos",
             "group": "Todos",
             "parameter": {
@@ -274,7 +274,7 @@ define({
         {
             "type": "patch",
             "url": "/api/todos:id",
-            "title": "Updates a Todo",
+            "title": "Update a Todo",
             "name": "UpdateTodoById",
             "group": "Todos",
             "parameter": {
@@ -369,7 +369,7 @@ define({
         {
             "type": "get",
             "url": "/api/users",
-            "title": "Get's the current User",
+            "title": "Retrieve the current User",
             "name": "GetCurrentUser",
             "group": "Users",
             "success": {
@@ -463,7 +463,7 @@ define({
         {
             "type": "post",
             "url": "/api/users",
-            "title": "Creates new User",
+            "title": "Create new User",
             "name": "PostUsers",
             "group": "Users",
             "parameter": {
